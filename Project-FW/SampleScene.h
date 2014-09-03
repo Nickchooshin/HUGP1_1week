@@ -2,8 +2,13 @@
 
 #include "Scene.h"
 
+class CBox ;
+
 class SampleScene : public Scene
 {
+private :
+	CBox *pBox ;
+
 public :
 	static Scene* scene() ;
 

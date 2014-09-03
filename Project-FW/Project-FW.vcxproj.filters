@@ -42,6 +42,12 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="SampleScene.cpp" />
+    <ClCompile Include="Objects.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Objects\Box</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h" />
@@ -91,6 +97,12 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="SampleScene.h" />
+    <ClInclude Include="Objects.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Objects\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
@@ -119,6 +131,12 @@
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{09e25e2d-2eaa-43b0-b1ef-6b3f56621ca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{07a1e57a-8c48-447e-8bcc-9e64d2bae0be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Box">
+      <UniqueIdentifier>{ae042925-7f61-418f-bb71-bcf5eb65db6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

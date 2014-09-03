@@ -90,7 +90,7 @@ LPDIRECT3DDEVICE9 CD3dSystem::GetDevice()
 
 bool CD3dSystem::BeginScene()
 {
-	m_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0 ); // D3DCOLOR_XRGB
+	m_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(253, 179, 40), 1.0f, 0 ); // D3DCOLOR_XRGB
 
 	return SUCCEEDED( m_pd3dDevice->BeginScene() ) ;
 }
