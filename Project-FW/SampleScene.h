@@ -2,12 +2,14 @@
 
 #include "Scene.h"
 
-class CBox ;
+//class CPlayer ;
+class CSprite ;
 
 class SampleScene : public Scene
 {
 private :
-	CBox *pBox ;
+	//CPlayer *m_pPlayer ;
+	CSprite *m_pBackground ;
 
 public :
 	static Scene* scene() ;

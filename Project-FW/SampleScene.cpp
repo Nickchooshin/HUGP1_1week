@@ -9,17 +9,25 @@
 #include "CameraManager.h"
 #include "MusicManager.h"
 
-#include "Box.h"
+#include "BoxManager.h"
+#include "Player.h"
+#include "CollisionManager.h"
+#include "Sprite.h"
+//
+#include "inelastic_collision.h"
 
 //FMOD::Sound *sound ;
 
-SampleScene::SampleScene() : pBox(NULL)
+SampleScene::SampleScene() : //m_pPlayer(NULL),
+							 m_pBackground(NULL)
 {
 }
 SampleScene::~SampleScene()
 {
-	if(pBox!=NULL)
-		delete pBox ;
+	/*if(m_pPlayer!=NULL)
+		delete m_pPlayer ;*/
+	if(m_pBackground!=NULL)
+		delete m_pBackground ;
 }
 
 Scene* SampleScene::scene()
@@ -33,11 +41,20 @@ void SampleScene::Init()
 {
 	g_CameraManager->AddCamera(new CCamera()) ;
 
-	pBox = new CBox ;
-	pBox->Init() ;
-	pBox->SetPosition(100.0f, 100.0f) ;
+	/*m_pPlayer = new CPlayer ;
+	m_pPlayer->Init() ;
+	m_pPlayer->SetPosition(200.0f, 150.0f) ;*/
+	g_Player->Init() ;
+	g_Player->SetPosition(200.0f, 150.0f) ;
 
 	//sound = g_MusicManager->LoadMusic("click_1.mp3", false, false) ;
+
+	//inelastic_collision(10, 20, 10, -2, 0.5) ;
+
+	//m_pBackground = new CSprite ;
+	//m_pBackground->Init("Resource/background.png") ;
+
+	g_BoxManager->Init() ;
 }
 
 void SampleScene::Destroy()
@@ -51,20 +68,25 @@ void SampleScene::Update(float dt)
 	g_Joystick->Update() ;
 	g_MusicManager->Loop() ;
 
-	static float s=1.0f ;
+	//m_pPlayer->Update() ;
+	g_Player->Update() ;
 
-	if(g_Keyboard->IsButtonDown(DIK_W))
-		s += 0.1f ;
-	if(g_Keyboard->IsButtonDown(DIK_S))
-		s -= 0.1f ;
-	pBox->SetScale(s) ;
+	g_BoxManager->Update() ;
 
 	//g_MusicManager->PlayMusic(sound[0]) ;
+	
+	//float a = GetAngle(m_pBox->GetPositionX(), m_pBox->GetPositionY(), m_pPlayer->GetPositionX(), m_pPlayer->GetPositionY()) ;
+	//float b = GetAngle2(a, 90.0f + 45.0f) ;
 }
 
 void SampleScene::Render()
 {
 	g_CameraManager->CameraRun() ;
 
-	pBox->Render() ;
+	//m_pPlayer->Render() ;
+	g_Player->Render() ;
+
+	g_BoxManager->Render() ;
+
+	//m_pBackground->Render() ;
 }
