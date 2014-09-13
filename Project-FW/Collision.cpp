@@ -1,8 +1,7 @@
 #include "Collision.h"
+#include "Data.h"
 #include <math.h>
 #include "Box.h"
-//
-#include <stdio.h>
 
 CCollision::CCollision()
 {
@@ -33,9 +32,39 @@ void CCollision::InelasticCollision(CBox *pBox1, CBox *pBox2)
 	float vecForceBox1 = sqrt((vecBox1.x * vecBox1.x) + (vecBox1.y * vecBox1.y)) ;
 	float vecForceBox2 = sqrt((vecBox2.x * vecBox2.x) + (vecBox2.y * vecBox2.y)) ;
 
+	// 비탄성 충돌
 	float _vecForceBox1, _vecForceBox2 ;
-	InelasticCollision(1.0f, 1.0f, vecForceBox1, vecForceBox2, 0.5f, _vecForceBox1, _vecForceBox2) ;
+	float spinSpeedBox1 = pBox1->GetSpinSpeedAbs() ;
+	float spinSpeedBox2 = pBox2->GetSpinSpeedAbs() ;
+	float modulus = g_Data->m_fModulus ;
+	float mass = g_Data->m_fMass ;
+	InelasticCollision(spinSpeedBox1 * mass, spinSpeedBox2 * mass, vecForceBox1, vecForceBox2, modulus, _vecForceBox1, _vecForceBox2) ;
 
+	// 회전 감속/가속
+	float forceBox1 = spinSpeedBox1 * vecForceBox1 ;
+	float forceBox2 = spinSpeedBox2 * vecForceBox2 ;
+	float spinAccBox1, spinAccBox2 ;
+	float spinModulus ;
+
+	if(forceBox1>=forceBox2)
+	{
+		spinModulus = forceBox2 / forceBox1 ;
+
+		spinAccBox1 = pBox1->GetSpinSpeed() + (pBox2->GetSpinSpeed() * spinModulus) ;
+		spinAccBox2 = pBox2->GetSpinSpeed() + pBox1->GetSpinSpeed() ;
+	}
+	else
+	{
+		spinModulus = forceBox1 / forceBox2 ;
+
+		spinAccBox1 = pBox1->GetSpinSpeed() + pBox2->GetSpinSpeed() ;
+		spinAccBox2 = pBox2->GetSpinSpeed() + (pBox1->GetSpinSpeed() * spinModulus) ;
+	}
+	
+	pBox1->SpinAccelerate(spinAccBox1) ;
+	pBox2->SpinAccelerate(spinAccBox2) ;
+
+	// 겹침 방지, 반사각
 	float Box1X = pBox1->GetPositionX(), Box1Y = pBox1->GetPositionY() ;
 	float Box2X = pBox2->GetPositionX(), Box2Y = pBox2->GetPositionY() ;
 	float angleBox1 = GetAngle(Box1X, Box1Y, Box2X, Box2Y) ;
@@ -46,7 +75,8 @@ void CCollision::InelasticCollision(CBox *pBox1, CBox *pBox2)
 	float x = Box2X - Box1X ;
 	float y = Box2Y - Box1Y ;
 	float distance = sqrt((x*x) + (y*y)) ;
-
+	
+	// 겹침현상 밀어내기
 	if(distance<=(48.0f))
 	{
 		distance = (48.0f - distance) / 2.0f ;
@@ -59,7 +89,8 @@ void CCollision::InelasticCollision(CBox *pBox1, CBox *pBox2)
 		vecBox2.y = sin( -((angleBox2 + 180.0f) * 3.141592f) / 180.0f ) * distance ;
 		pBox2->SetPosition(Box2X + vecBox2.x, Box2Y + vecBox2.y) ;
 	}
-
+	
+	// 반사각으로 튕겨내기
 	float radian ;
 
 	radian = angleRBox1 * 3.141592f / 180.0f ;

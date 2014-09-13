@@ -21,6 +21,8 @@ public :
 	void Render() ;
 private :
 	void Collision() ;
+	void CreateBox() ;
+	void DeleteBox() ;
 } ;
 
 #define g_BoxManager CBoxManager::GetInstance()

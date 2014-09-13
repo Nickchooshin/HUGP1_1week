@@ -2,8 +2,9 @@
 #include "Sprite.h"
 #include "Keyboard.h"
 #include "D3dDevice.h"
+#include "Data.h"
 
-CPlayer::CPlayer()
+CPlayer::CPlayer() : m_fMoveAcc(g_Data->m_fMoveAcc), m_fSpinAcc(g_Data->m_fSpinAcc)
 {
 	m_fSpinSpeed = 0.0f ;
 }
@@ -19,19 +20,8 @@ void CPlayer::Update()
 
 void CPlayer::MoveInput()
 {
-	/*float fMoveSpeed = 3.0f * g_D3dDevice->GetMoveTime() ;
-
-	if(g_Keyboard->IsButtonDown(DIK_UP))
-		m_fY += fMoveSpeed ;
-	if(g_Keyboard->IsButtonDown(DIK_DOWN))
-		m_fY -= fMoveSpeed ;
-	if(g_Keyboard->IsButtonDown(DIK_LEFT))
-		m_fX -= fMoveSpeed ;
-	if(g_Keyboard->IsButtonDown(DIK_RIGHT))
-		m_fX += fMoveSpeed ;*/
-
-	float fAcceleration = 0.1f * g_D3dDevice->GetMoveTime() ;
-	float fDeceleration = 0.05f * g_D3dDevice->GetMoveTime() ;
+	float fAcceleration = m_fMoveAcc * g_D3dDevice->GetMoveTime() ;
+	float fDeceleration = (m_fMoveAcc/2.0f) * g_D3dDevice->GetMoveTime() ;
 
 	if(g_Keyboard->IsButtonDown(DIK_UP))
 		m_Vector.y += fAcceleration ;
@@ -81,7 +71,7 @@ void CPlayer::MoveInput()
 
 void CPlayer::SpinInput()
 {
-	float fSpinSpeed = 0.1f * g_D3dDevice->GetMoveTime() ;
+	float fSpinSpeed = m_fSpinAcc * g_D3dDevice->GetMoveTime() ;
 
 	if(g_Keyboard->IsButtonDown(DIK_A))
 		m_fSpinSpeed += fSpinSpeed ;

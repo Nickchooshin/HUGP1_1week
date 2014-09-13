@@ -59,6 +59,12 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Data.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h" />
@@ -128,6 +134,12 @@
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Data.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">

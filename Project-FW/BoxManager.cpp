@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "Collision.h"
 
+#include "D3dDevice.h"
+
 CBoxManager::CBoxManager()
 {
 }
@@ -23,20 +25,45 @@ void CBoxManager::Init()
 {
 	CBox *pBox=NULL ;
 
-	pBox = new CBox() ;
+	/*pBox = new CBox() ;
 	pBox->Init() ;
 	pBox->SetPosition(320.0f, 280.0f) ;
-	m_BoxList.push_back(pBox) ;
+	m_BoxList.push_back(pBox) ;*/
+
+	const int num=10 ;
+
+	for(int i=0; i<num; i++)
+	{
+		pBox = new CBox() ;
+		pBox->Init() ;
+		pBox->SetPosition((rand()%10)*100.0f, (rand()%10)*100.0f) ;
+		m_BoxList.push_back(pBox) ;
+	}
 }
 
 void CBoxManager::Update()
 {
-	const int num=m_BoxList.size() ;
+	int num=m_BoxList.size() ;
 
 	for(int i=0; i<num; i++)
+	{
+		if(!m_BoxList[i]->BeLife())
+		{
+			CBox *pBox = m_BoxList[i] ;
+			m_BoxList.erase(m_BoxList.begin() + i) ;
+			delete pBox ;
+
+			--i ;
+			--num ;
+			continue ;
+		}
 		m_BoxList[i]->Update() ;
+	}
 
 	Collision() ;
+
+	CreateBox() ;
+	DeleteBox() ;
 }
 
 void CBoxManager::Render()
@@ -68,6 +95,61 @@ void CBoxManager::Collision()
 		if(bCol)
 		{
 			collision.InelasticCollision(g_Player, pBox) ;
+		}
+	}
+}
+
+void CBoxManager::CreateBox()
+{
+	static float t=0.0f ;
+	t += g_D3dDevice->GetTime() ;
+
+	if(t>=0.5f)
+	{
+		const int num = (int)(t/1.0f) ;
+		t -= num * 1.0f ;
+
+		if(m_BoxList.size()<50)
+		{
+			for(int i=0; i<num; i++)
+			{
+				int length = rand()%10 ;
+				int angle = rand()%36 ;
+
+				float x = g_Player->GetPositionX() + (100.0f * length + 500.0f) * cos((angle*10.0f) * D3DX_PI / 180.0f) ;
+				float y = g_Player->GetPositionY() + (100.0f * length + 500.0f) * sin((angle*10.0f) * D3DX_PI / 180.0f) ;
+
+				CBox *pBox = new CBox ;
+				pBox->Init() ;
+				pBox->SetPosition(x, y) ;
+				m_BoxList.push_back(pBox) ;
+			}
+		}
+	}
+}
+
+void CBoxManager::DeleteBox()
+{
+	int num=m_BoxList.size() ;
+
+	float PlayerX = g_Player->GetPositionX() ;
+	float PlayerY = g_Player->GetPositionY() ;
+
+	for(int i=0; i<num; i++)
+	{
+		CBox *pBox = m_BoxList[i] ;
+
+		float x = PlayerX - pBox->GetPositionX() ;
+		float y = PlayerY - pBox->GetPositionY() ;
+		float distance = sqrt((x*x) + (y*y)) ;
+
+		if(distance>3000.0f)
+		{
+			m_BoxList.erase(m_BoxList.begin() + i) ;
+			delete pBox ;
+
+			--i ;
+			--num ;
 		}
 	}
 }

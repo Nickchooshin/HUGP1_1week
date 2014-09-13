@@ -5,6 +5,9 @@
 
 class CPlayer : public CBox, public Singleton<CPlayer>
 {
+private :
+	float m_fMoveAcc, m_fSpinAcc ;
+
 public :
 	CPlayer() ;
 	~CPlayer() ;
