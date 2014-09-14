@@ -16,7 +16,7 @@ void CParticle_Debris::Init()
 	m_pSprite->Init("Resource/Debris.png") ;
 
 	m_vecSpeed.x = -1.0f * (rand()%13-6) ;
-	m_vecSpeed.y = 1.0f * (rand()%5) ;
+	m_vecSpeed.y = 2.0f * (rand()%5) ;
 
 	m_vecAcc.x = m_vecSpeed.x * -0.01f ;
 	m_vecAcc.y = -0.15f ;

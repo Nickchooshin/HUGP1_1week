@@ -48,14 +48,20 @@ void CCollision::InelasticCollision(CBox *pBox1, CBox *pBox2)
 
 	if(forceBox1>=forceBox2)
 	{
-		spinModulus = forceBox2 / forceBox1 ;
+		if(forceBox1!=0.0f)
+			spinModulus = forceBox2 / forceBox1 ;
+		else
+			spinModulus = 1.0f ;
 
 		spinAccBox1 = pBox1->GetSpinSpeed() + (pBox2->GetSpinSpeed() * spinModulus) ;
 		spinAccBox2 = pBox2->GetSpinSpeed() + pBox1->GetSpinSpeed() ;
 	}
 	else
 	{
-		spinModulus = forceBox1 / forceBox2 ;
+		if(forceBox2!=0.0f)
+			spinModulus = forceBox1 / forceBox2 ;
+		else
+			spinModulus = 1.0f ;
 
 		spinAccBox1 = pBox1->GetSpinSpeed() + pBox2->GetSpinSpeed() ;
 		spinAccBox2 = pBox2->GetSpinSpeed() + (pBox1->GetSpinSpeed() * spinModulus) ;

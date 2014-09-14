@@ -83,20 +83,27 @@ void CBox::SpinAccelerate(float fSpinAcc)
 {
 	bool bSign1, bSign2 ;
 
-	if(m_fSpinSpeed>0.0f)
-		bSign1 = true ;
-	else if(m_fSpinSpeed<0.0f)
-		bSign1 = false ;
-
-	if(fSpinAcc>0.0f)
-		bSign2 = true ;
-	else if(fSpinAcc<0.0f)
-		bSign2 = false ;
-
-	if(bSign1!=bSign2)
+	if(m_fSpinSpeed==0.0f || fSpinAcc==0.0f)
+	{
 		m_bLife = false ;
+	}
 	else
-		m_fSpinSpeed = fSpinAcc ;
+	{
+		if(m_fSpinSpeed>0.0f)
+			bSign1 = true ;
+		else if(m_fSpinSpeed<0.0f)
+			bSign1 = false ;
+
+		if(fSpinAcc>0.0f)
+			bSign2 = true ;
+		else if(fSpinAcc<0.0f)
+			bSign2 = false ;
+
+		if(bSign1!=bSign2)
+			m_bLife = false ;
+		else
+			m_fSpinSpeed = fSpinAcc ;
+	}
 }
 
 void CBox::Spin()
