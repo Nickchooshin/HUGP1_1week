@@ -12,8 +12,7 @@
 #include "Data.h"
 #include "BoxManager.h"
 #include "Player.h"
-#include "CollisionManager.h"
-#include "Sprite.h"
+#include "ParticleManager.h"
 //
 #include "inelastic_collision.h"
 
@@ -60,6 +59,8 @@ void SampleScene::Update(float dt)
 
 	g_BoxManager->Update() ;
 
+	g_ParticleManager->Update() ;
+
 	//g_MusicManager->PlayMusic(sound[0]) ;
 
 	g_CameraManager->SetPosition(g_Player->GetPositionX(), g_Player->GetPositionY()) ;
@@ -72,4 +73,6 @@ void SampleScene::Render()
 	g_Player->Render() ;
 
 	g_BoxManager->Render() ;
+
+	g_ParticleManager->Render() ;
 }

@@ -2,6 +2,7 @@
 #include "Box.h"
 #include "Player.h"
 #include "Collision.h"
+#include "ParticleManager.h"
 
 #include "D3dDevice.h"
 
@@ -51,6 +52,9 @@ void CBoxManager::Update()
 		{
 			CBox *pBox = m_BoxList[i] ;
 			m_BoxList.erase(m_BoxList.begin() + i) ;
+			//
+			g_ParticleManager->CreateParticle(pBox->GetPositionX(), pBox->GetPositionY(), 1) ;
+			//
 			delete pBox ;
 
 			--i ;
@@ -95,6 +99,7 @@ void CBoxManager::Collision()
 		if(bCol)
 		{
 			collision.InelasticCollision(g_Player, pBox) ;
+			g_ParticleManager->CreateParticle(g_Player->GetPositionX(), g_Player->GetPositionY(), 0) ;
 		}
 	}
 }

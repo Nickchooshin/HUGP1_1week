@@ -85,7 +85,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="D3dSystem.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="inelastic_collision.cpp" />
@@ -97,6 +96,10 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="MusicManager.cpp" />
     <ClCompile Include="Objects.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="Particle_Debris.cpp" />
+    <ClCompile Include="Particle_Energy.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SampleScene.cpp" />
@@ -111,7 +114,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Collision.h" />
-    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="D3dSystem.h" />
     <ClInclude Include="D3dDevice.h" />
     <ClInclude Include="Data.h" />
@@ -123,6 +125,10 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="MusicManager.h" />
     <ClInclude Include="Objects.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="Particle_Debris.h" />
+    <ClInclude Include="Particle_Energy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

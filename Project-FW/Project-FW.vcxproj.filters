@@ -55,15 +55,24 @@
     <ClCompile Include="BoxManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Data.cpp">
       <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="LoadManager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle_Debris.cpp">
+      <Filter>Objects\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Objects\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle_Energy.cpp">
+      <Filter>Objects\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,15 +139,24 @@
     <ClInclude Include="BoxManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Data.h">
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="LoadManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Objects\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle_Debris.h">
+      <Filter>Objects\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle_Energy.h">
+      <Filter>Objects\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +198,9 @@
     </Filter>
     <Filter Include="Data">
       <UniqueIdentifier>{da6ac58b-366c-435d-8f62-8ff293aa48e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Particle">
+      <UniqueIdentifier>{79023ee7-eb87-4ac8-b28a-71dd5361dc1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
