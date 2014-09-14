@@ -1,10 +1,10 @@
 #include "Player.h"
 #include "Sprite.h"
 #include "Keyboard.h"
-#include "D3dDevice.h"
-#include "Data.h"
 
-CPlayer::CPlayer() : m_fMoveAcc(g_Data->m_fMoveAcc), m_fSpinAcc(g_Data->m_fSpinAcc)
+#include "D3dDevice.h"
+
+CPlayer::CPlayer()
 {
 	m_fSpinSpeed = 0.0f ;
 }
@@ -16,6 +16,12 @@ void CPlayer::Update()
 {
 	MoveInput() ;
 	SpinInput() ;
+}
+
+void CPlayer::EnergyAbsorption()
+{
+	m_fScale += 0.001f ;
+	m_pSprite->SetScale(m_fScale, m_fScale) ;
 }
 
 void CPlayer::MoveInput()
@@ -102,4 +108,28 @@ void CPlayer::SpinInput()
 	m_fRotation += m_fSpinSpeed ;
 
 	m_pSprite->SetAngle(m_fRotation) ;
+	
+	// 회전 방향에 따른 색
+	int r, g, b ;
+	float percentage ;
+	r = g = b = 255 ;
+
+	if(m_fSpinSpeed>=0.0f)
+	{
+		r -= 92 ;
+		g -= 200 ;
+		b -= 255 ;
+		percentage = m_fSpinSpeed / (m_fScale * 15.0f) ;
+	}
+	else
+	{
+		r -= 255 ;
+		g -= 96 ;
+		b -= 96 ;
+		percentage = m_fSpinSpeed / (m_fScale * -15.0f) ;
+	}
+	r = 255 - (int)(r * percentage) ;
+	g = 255 - (int)(g * percentage) ;
+	b = 255 - (int)(b * percentage) ;
+	m_pSprite->SetRGB(r, g, b) ;
 }

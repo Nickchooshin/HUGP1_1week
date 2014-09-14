@@ -1,5 +1,6 @@
 #include "Box.h"
 #include "Sprite.h"
+#include "Data.h"
 #include "BoxManager.h"
 
 #include "D3dDevice.h"
@@ -8,7 +9,9 @@ CBox::CBox() : m_bLife(true),
 			   m_fScale(1.0f),
 			   m_fRotation(0.0f),
 			   m_fSpinSpeed(6.0f),
-			   m_Vector()
+			   m_Vector(),
+			   m_fMoveAcc(g_Data->m_fMoveAcc), m_fSpinAcc(g_Data->m_fSpinAcc),
+			   m_fFixedSpinSpeed(10.0f)
 {
 }
 CBox::~CBox()
@@ -41,6 +44,11 @@ void CBox::SetSpinSpeed(float fSpinSpeed)
 void CBox::SetVector(Vector vec)
 {
 	m_Vector = vec ;
+}
+
+void CBox::SetFixedSpinSpeed(float fFixedSpinSpeed)
+{
+	m_fFixedSpinSpeed = fFixedSpinSpeed ;
 }
 
 const float CBox::GetScale() const
@@ -93,7 +101,28 @@ void CBox::SpinAccelerate(float fSpinAcc)
 
 void CBox::Spin()
 {
-	m_fRotation += m_fSpinSpeed * g_D3dDevice->GetMoveTime() ;
+	float fSpinSpeed = m_fSpinAcc * g_D3dDevice->GetMoveTime() ;
+	float temp = m_fSpinSpeed < 0.0f ? -m_fSpinSpeed : m_fSpinSpeed ;
+	float temp2 = m_fFixedSpinSpeed < 0.0f ? -m_fFixedSpinSpeed : m_fFixedSpinSpeed ;
+
+	if(temp - fSpinSpeed>m_fFixedSpinSpeed)
+	{
+		if(m_fSpinSpeed>0.0f)
+			m_fSpinSpeed -= fSpinSpeed ;
+		else if(m_fSpinSpeed<0.0f)
+			m_fSpinSpeed += fSpinSpeed ;
+	}
+	else
+	{
+		m_fSpinSpeed = m_fFixedSpinSpeed ;
+	}
+
+	if(m_fSpinSpeed>m_fScale * 15.0f)
+		m_fSpinSpeed = m_fScale * 15.0f ;
+	else if(m_fSpinSpeed<m_fScale * -15.0f)
+		m_fSpinSpeed = m_fScale * -15.0f ;
+	m_fRotation += m_fSpinSpeed ;
+
 	m_pSprite->SetAngle(m_fRotation) ;
 }
 

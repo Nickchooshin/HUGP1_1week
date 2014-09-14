@@ -11,6 +11,10 @@ protected :
 	float m_fRotation, m_fSpinSpeed ;
 	Vector m_Vector ;
 
+	float m_fMoveAcc, m_fSpinAcc ;
+private :
+	float m_fFixedSpinSpeed ;
+
 public :
 	CBox() ;
 	virtual ~CBox() ;
@@ -22,6 +26,8 @@ public :
 	void SetScale(float fScale) ;
 	void SetSpinSpeed(float fSpinSpeed) ;
 	void SetVector(Vector vec) ;
+	//
+	void SetFixedSpinSpeed(float fFixedSpinSpeed) ;
 
 	const float GetScale() const ;
 	const float GetSpinSpeed() const ;

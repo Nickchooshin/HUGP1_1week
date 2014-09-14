@@ -43,7 +43,7 @@ void CParticle_Energy::Update()
 		float angle ;
 		float PlayerX = g_Player->GetPositionX() ;
 		float PlayerY = g_Player->GetPositionY() ;
-		//float PlayerS = g_Player->GetScale() * 24.0f ;
+		float PlayerS = g_Player->GetScale() * 10.0f ;
 
 		angle = col.GetAngle(m_fX, m_fY, PlayerX, PlayerY) ;
 		angle = angle * D3DX_PI / 180.0f ;
@@ -55,8 +55,11 @@ void CParticle_Energy::Update()
 		if(fForce>10.0f)
 			fForce = 10.0f ;
 
-		if(col.CircleCollision(m_fX, m_fY, 1.0f, PlayerX, PlayerY, 10.0f))
+		if(col.CircleCollision(m_fX, m_fY, 1.0f, PlayerX, PlayerY, PlayerS))
+		{
 			m_bLife = false ;
+			g_Player->EnergyAbsorption() ;
+		}
 	}
 
 	if(!m_bGuide)
