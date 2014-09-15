@@ -2,9 +2,12 @@
 
 #include "Scene.h"
 
+class CSprite ;
+
 class SampleScene : public Scene
 {
 private :
+	CSprite *m_pBackground ;
 
 public :
 	static Scene* scene() ;

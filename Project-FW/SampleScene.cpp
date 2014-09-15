@@ -18,11 +18,13 @@
 
 //FMOD::Sound *sound ;
 
-SampleScene::SampleScene()
+SampleScene::SampleScene() : m_pBackground(NULL)
 {
 }
 SampleScene::~SampleScene()
 {
+	if(m_pBackground!=NULL)
+		delete m_pBackground ;
 }
 
 Scene* SampleScene::scene()
@@ -35,6 +37,9 @@ Scene* SampleScene::scene()
 void SampleScene::Init()
 {
 	g_CameraManager->AddCamera(new CCamera()) ;
+
+	m_pBackground = new CSprite ;
+	m_pBackground->Init("Resource/Background.png") ;
 
 	g_Data->Init() ;
 
@@ -62,6 +67,7 @@ void SampleScene::Update(float dt)
 	g_ParticleManager->Update() ;
 
 	//g_MusicManager->PlayMusic(sound[0]) ;
+	m_pBackground->SetPosition(g_Player->GetPositionX(), g_Player->GetPositionY()) ;
 
 	g_CameraManager->SetPosition(g_Player->GetPositionX(), g_Player->GetPositionY()) ;
 }
@@ -69,6 +75,8 @@ void SampleScene::Update(float dt)
 void SampleScene::Render()
 {
 	g_CameraManager->CameraRun() ;
+
+	m_pBackground->Render() ;
 
 	g_Player->Render() ;
 

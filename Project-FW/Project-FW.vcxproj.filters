@@ -74,6 +74,9 @@
     <ClCompile Include="Particle_Energy.cpp">
       <Filter>Objects\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h" />
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="Particle_Energy.h">
       <Filter>Objects\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
