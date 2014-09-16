@@ -2,6 +2,8 @@
 #include "Sprite.h"
 #include "Data.h"
 #include "BoxManager.h"
+#include "Player.h"
+#include "Collision.h"
 
 #include "D3dDevice.h"
 
@@ -137,7 +139,7 @@ void CBox::Spin()
 
 void CBox::Move()
 {
-	float fDeceleration = 0.05f * g_D3dDevice->GetMoveTime() ;
+	/*float fDeceleration = 0.05f * g_D3dDevice->GetMoveTime() ;
 	float temp ;
 
 	temp = m_Vector.y < 0.0f ? -m_Vector.y : m_Vector.y ;
@@ -167,7 +169,35 @@ void CBox::Move()
 	}
 
 	m_fX += m_Vector.x ;
+	m_fY += m_Vector.y ;*/
+	
+	//
+	float fAcceleration = m_fMoveAcc * g_D3dDevice->GetMoveTime() ;
+	float temp ;
+	float temp2 ;
+
+	CCollision col ;
+	float angle ;
+	float PlayerX = g_Player->GetPositionX() ;
+	float PlayerY = g_Player->GetPositionY() ;
+
+	angle = col.GetAngle(m_fX, m_fY, PlayerX, PlayerY) ;
+	angle = angle * D3DX_PI / 180.0f ;
+
+	m_Vector.x += cos(angle) * m_fMoveAcc ;
+	m_Vector.y += sin(angle) * m_fMoveAcc ;
+
+	m_fX += m_Vector.x ;
 	m_fY += m_Vector.y ;
+
+	/*float x = cos(angle) * 25.0f ;
+	float y = sin(angle) * 25.0f ;
+
+	temp = m_Vector.y < 0.0f ? -m_Vector.y : m_Vector.y ;
+	temp2 = y < 0.0f ? -y : y ;
+	if(temp - fAcc>0.0f)
+	{
+	}*/
 }
 
 void CBox::SpinColor()
