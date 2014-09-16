@@ -13,6 +13,9 @@ public :
 	int m_nMaxScore ;
 	float m_fTimeLimit ;
 
+	float m_fBoxForceMax ;
+	float m_bBoxCollision ;
+
 public :
 	CData() ;
 	~CData() ;

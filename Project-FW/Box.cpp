@@ -139,39 +139,6 @@ void CBox::Spin()
 
 void CBox::Move()
 {
-	/*float fDeceleration = 0.05f * g_D3dDevice->GetMoveTime() ;
-	float temp ;
-
-	temp = m_Vector.y < 0.0f ? -m_Vector.y : m_Vector.y ;
-	if(temp - fDeceleration>0.0f)
-	{
-		if(m_Vector.y>0.0f)
-			m_Vector.y -= fDeceleration ;
-		else
-			m_Vector.y += fDeceleration ;
-	}
-	else
-	{
-		m_Vector.y = 0.0f ;
-	}
-	
-	temp = m_Vector.x < 0.0f ? -m_Vector.x : m_Vector.x ;
-	if(temp - fDeceleration>0.0f)
-	{
-		if(m_Vector.x>0.0f)
-			m_Vector.x -= fDeceleration ;
-		else
-			m_Vector.x += fDeceleration ;
-	}
-	else
-	{
-		m_Vector.x = 0.0f ;
-	}
-
-	m_fX += m_Vector.x ;
-	m_fY += m_Vector.y ;*/
-	
-	//
 	float fAcceleration = m_fMoveAcc * g_D3dDevice->GetMoveTime() ;
 	float temp ;
 	float temp2 ;
@@ -187,17 +154,16 @@ void CBox::Move()
 	m_Vector.x += cos(angle) * m_fMoveAcc ;
 	m_Vector.y += sin(angle) * m_fMoveAcc ;
 
+	float fBoxForce = g_Data->m_fBoxForceMax ;
+	float fForce = sqrt((m_Vector.x * m_Vector.x) + (m_Vector.y * m_Vector.y)) ;
+	if(fForce>fBoxForce)
+	{
+		fForce = fBoxForce / fForce ;
+		m_Vector = m_Vector * fForce ;
+	}
+
 	m_fX += m_Vector.x ;
 	m_fY += m_Vector.y ;
-
-	/*float x = cos(angle) * 25.0f ;
-	float y = sin(angle) * 25.0f ;
-
-	temp = m_Vector.y < 0.0f ? -m_Vector.y : m_Vector.y ;
-	temp2 = y < 0.0f ? -y : y ;
-	if(temp - fAcc>0.0f)
-	{
-	}*/
 }
 
 void CBox::SpinColor()

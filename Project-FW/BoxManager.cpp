@@ -5,6 +5,8 @@
 #include "ParticleManager.h"
 
 #include "D3dDevice.h"
+//
+#include "Data.h"
 
 CBoxManager::CBoxManager()
 {
@@ -90,20 +92,23 @@ void CBoxManager::Collision()
 			g_ParticleManager->CreateParticle(g_Player->GetPositionX(), g_Player->GetPositionY(), 0) ;
 		}
 
-		for(int j=0; j<num; j++)
+		if(g_Data->m_bBoxCollision)
 		{
-			if(i==j)
-				continue ;
-
-			CBox *pBox2 = m_BoxList[j] ;
-			float Box2X = pBox2->GetPositionX() ;
-			float Box2Y = pBox2->GetPositionY() ;
-			float Box2R = pBox2->GetScale() ;
-			bool bCol = collision.CircleCollision(BoxX, BoxY, BoxR*24.0f, Box2X, Box2Y, Box2R*24.0f) ;
-			if(bCol)
+			for(int j=0; j<num; j++)
 			{
-				collision.InelasticCollision(pBox, pBox2) ;
-				g_ParticleManager->CreateParticle(pBox->GetPositionX(), pBox->GetPositionY(), 0) ;
+				if(i==j)
+					continue ;
+
+				CBox *pBox2 = m_BoxList[j] ;
+				float Box2X = pBox2->GetPositionX() ;
+				float Box2Y = pBox2->GetPositionY() ;
+				float Box2R = pBox2->GetScale() ;
+				bool bCol = collision.CircleCollision(BoxX, BoxY, BoxR*24.0f, Box2X, Box2Y, Box2R*24.0f) ;
+				if(bCol)
+				{
+					collision.InelasticCollision(pBox, pBox2) ;
+					g_ParticleManager->CreateParticle(pBox->GetPositionX(), pBox->GetPositionY(), 0) ;
+				}
 			}
 		}
 	}

@@ -9,7 +9,9 @@ CData::CData() : m_fModulus(0.5f),
 				 m_fMoveAcc(0.1f), m_fSpinAcc(0.1f),
 				 m_bScore(false), m_bTime(false),
 				 m_nMaxScore(10000),
-				 m_fTimeLimit(60.0f)
+				 m_fTimeLimit(60.0f),
+				 m_fBoxForceMax(10.0f),
+				 m_bBoxCollision(false)
 {
 }
 CData::~CData()
@@ -78,6 +80,18 @@ bool CData::LoadData()
 			g_LoadManager->GetString(temp) ;
 			m_fTimeLimit = (float)strtod(temp, NULL) ;
 		}
+		//
+		else if(len==9 && strcmp(item, "BOX_FORCE")==0)
+		{
+			g_LoadManager->GetString(temp) ;
+			m_fBoxForceMax = (float)strtod(temp, NULL) ;
+		}
+		else if(len==13 && strcmp(item, "BOX_COLLISION")==0)
+		{
+			int b ;
+			g_LoadManager->GetValue(b) ;
+			m_bBoxCollision = b ;
+		}
 	}
 
 	g_LoadManager->CloseDat() ;
@@ -125,6 +139,18 @@ bool CData::CreateDataFile()
 	fprintf(pFile, "\n") ;
 	fprintf(pFile, "<time_limit>\n") ;
 	fprintf(pFile, "%f\n", m_fTimeLimit) ;
+
+	//
+	fprintf(pFile, "\n") ;
+
+	fprintf(pFile, "# Box Speed Force Max\n") ;
+	fprintf(pFile, "<box_force_max>\n") ;
+	fprintf(pFile, "%f\n", m_fBoxForceMax) ;
+	fprintf(pFile, "\n") ;
+
+	fprintf(pFile, "# Box Collision Mode\n") ;
+	fprintf(pFile, "<box_collision>\n") ;
+	fprintf(pFile, "%d\n", m_bBoxCollision) ;
 
 	fclose(pFile) ;
 
