@@ -14,10 +14,11 @@ CParticle::~CParticle()
 
 void CParticle::Update()
 {
-	m_fX += m_vecSpeed.x ;
-	m_fY += m_vecSpeed.y ;
+	float fMoveTime = g_D3dDevice->GetMoveTime() ;
+	m_fX += m_vecSpeed.x * fMoveTime ;
+	m_fY += m_vecSpeed.y * fMoveTime ;
 
-	m_vecSpeed += m_vecAcc ;
+	m_vecSpeed += m_vecAcc * fMoveTime ;
 
 	if(m_bTime)
 	{

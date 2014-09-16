@@ -4,7 +4,7 @@
 
 #include "D3dDevice.h"
 
-CPlayer::CPlayer()
+CPlayer::CPlayer() : m_nScore(0)
 {
 	m_fSpinSpeed = 0.0f ;
 }
@@ -20,8 +20,14 @@ void CPlayer::Update()
 
 void CPlayer::EnergyAbsorption()
 {
+	m_nScore += 50 ;
 	m_fScale += 0.001f ;
 	m_pSprite->SetScale(m_fScale, m_fScale) ;
+}
+
+const int CPlayer::GetScore() const
+{
+	return m_nScore ;
 }
 
 void CPlayer::MoveInput()

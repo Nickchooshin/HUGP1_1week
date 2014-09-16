@@ -5,6 +5,9 @@
 
 class CPlayer : public CBox, public Singleton<CPlayer>
 {
+private :
+	int m_nScore ;
+
 public :
 	CPlayer() ;
 	~CPlayer() ;
@@ -12,6 +15,8 @@ public :
 	void Update() ;
 
 	void EnergyAbsorption() ;
+
+	const int GetScore() const ;
 private :
 	void MoveInput() ;
 	void SpinInput() ;

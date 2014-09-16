@@ -18,7 +18,8 @@ TitleScene::TitleScene() : m_pBackground(NULL),
 						   m_pBox1(NULL), m_pBox2(NULL),
 						   m_nCursor(0),
 						   m_nImageBox(0),
-						   m_fAngle(0.0f)
+						   m_fAngle(0.0f),
+						   m_pSoundButton(NULL)
 {
 }
 TitleScene::~TitleScene()
@@ -74,10 +75,13 @@ void TitleScene::Init()
 	m_pBox2 = new CSprite() ;
 	m_pBox2->Init("Resource/48.png") ;
 	m_pBox2->SetRGB(255, 161, 161) ;
+
+	m_pSoundButton = g_MusicManager->LoadMusic("Resource/es040.wav", false, false) ;
 }
 
 void TitleScene::Destroy()
 {
+	g_MusicManager->StopMusic() ;
 }
 
 void TitleScene::Update(float dt)
@@ -89,18 +93,27 @@ void TitleScene::Update(float dt)
 
 	if(m_nImageBox==0 && g_Keyboard->IsPressDown(DIK_UP))
 	{
+		g_MusicManager->StopMusic() ;
+		g_MusicManager->PlayMusic(m_pSoundButton) ;
+
 		--m_nCursor ;
 		if(m_nCursor<0)
 			m_nCursor = 2 ;
 	}
 	if(m_nImageBox==0 && g_Keyboard->IsPressDown(DIK_DOWN))
 	{
+		g_MusicManager->StopMusic() ;
+		g_MusicManager->PlayMusic(m_pSoundButton) ;
+
 		++m_nCursor ;
 		if(m_nCursor>2)
 			m_nCursor = 0 ;
 	}
 	if(g_Keyboard->IsPressDown(DIK_RETURN))
 	{
+		g_MusicManager->StopMusic() ;
+		g_MusicManager->PlayMusic(m_pSoundButton) ;
+
 		if(m_nCursor==0)
 			g_SceneManager->ChangeScene(SampleScene::scene()) ;
 		else if(m_nCursor==1)

@@ -24,22 +24,10 @@ CBoxManager::~CBoxManager()
 
 void CBoxManager::Init()
 {
-	CBox *pBox=NULL ;
-
-	/*pBox = new CBox() ;
-	pBox->Init() ;
-	pBox->SetPosition(320.0f, 280.0f) ;
-	m_BoxList.push_back(pBox) ;*/
-
 	const int num=10 ;
 
 	for(int i=0; i<num; i++)
-	{
-		pBox = new CBox() ;
-		pBox->Init() ;
-		pBox->SetPosition((rand()%10)*100.0f, (rand()%10)*100.0f) ;
-		m_BoxList.push_back(pBox) ;
-	}
+		CreateRandomBox() ;
 }
 
 void CBoxManager::Update()
@@ -117,18 +105,7 @@ void CBoxManager::CreateBox()
 		if(m_BoxList.size()<50)
 		{
 			for(int i=0; i<num; i++)
-			{
-				int length = rand()%10 ;
-				int angle = rand()%36 ;
-
-				float x = g_Player->GetPositionX() + (100.0f * length + 500.0f) * cos((angle*10.0f) * D3DX_PI / 180.0f) ;
-				float y = g_Player->GetPositionY() + (100.0f * length + 500.0f) * sin((angle*10.0f) * D3DX_PI / 180.0f) ;
-
-				CBox *pBox = new CBox ;
-				pBox->Init() ;
-				pBox->SetPosition(x, y) ;
-				m_BoxList.push_back(pBox) ;
-			}
+				CreateRandomBox() ;
 		}
 	}
 }
@@ -157,4 +134,31 @@ void CBoxManager::DeleteBox()
 			--num ;
 		}
 	}
+}
+
+void CBoxManager::CreateRandomBox()
+{
+	int length = rand()%10 ;
+	int angle = rand()%36 ;
+
+	float x = g_Player->GetPositionX() + (100.0f * length + 664.0f) * cos((angle*10.0f) * D3DX_PI / 180.0f) ;
+	float y = g_Player->GetPositionY() + (100.0f * length + 664.0f) * sin((angle*10.0f) * D3DX_PI / 180.0f) ;
+
+	CBox *pBox = new CBox ;
+	pBox->Init() ;
+	pBox->SetPosition(x, y) ;
+
+	// 크기 설정
+	float Scale = 1.0f - (0.2f * (rand()%4-1)) ;
+	Scale *= g_Player->GetScale() ;
+	pBox->SetScale(Scale) ;
+
+	// 회전속도 설정
+	float Spin = 1.0f - (0.125f * (rand()%5)) ;
+	float p = 1.0f - (2.0f * (rand()%2)) ;
+	Spin *= Scale * 15.0f * p ;
+	pBox->SetFixedSpinSpeed(Spin) ;
+
+	// 리스트에 등록
+	m_BoxList.push_back(pBox) ;
 }

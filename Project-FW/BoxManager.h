@@ -23,6 +23,8 @@ private :
 	void Collision() ;
 	void CreateBox() ;
 	void DeleteBox() ;
+
+	void CreateRandomBox() ;
 } ;
 
 #define g_BoxManager CBoxManager::GetInstance()

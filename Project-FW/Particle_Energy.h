@@ -6,6 +6,7 @@ class CParticle_Energy : public CParticle
 {
 private :
 	bool m_bGuide ;
+	float m_fForce ;
 
 public :
 	CParticle_Energy() ;

@@ -40,4 +40,6 @@ public :
 protected :
 	void Spin() ;
 	void Move() ;
+
+	void SpinColor() ;
 } ;

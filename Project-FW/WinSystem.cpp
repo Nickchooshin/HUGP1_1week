@@ -2,6 +2,7 @@
 #include "D3dSystem.h"
 #include "SceneManager.h"
 #include "D3dDevice.h"
+#include <time.h>
 
 #ifdef _DEBUG
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
@@ -19,6 +20,8 @@ CWinSystem::~CWinSystem()
 
 void CWinSystem::WinSet(LPCTSTR TitleName, DWORD WinStyle, int WinWidth, int WinHeight)
 {
+	srand(time(NULL)) ;
+
 	m_wc.cbSize = sizeof(WNDCLASSEX) ;
 	m_wc.style = CS_CLASSDC ;
 	m_wc.lpfnWndProc = MsgProc ;

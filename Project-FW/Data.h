@@ -9,6 +9,10 @@ public :
 	float m_fMass ;
 	float m_fMoveAcc, m_fSpinAcc ;
 
+	bool m_bScore, m_bTime ;
+	int m_nMaxScore ;
+	float m_fTimeLimit ;
+
 public :
 	CData() ;
 	~CData() ;

@@ -20,6 +20,14 @@ typedef struct _Vector
 
 		return temp ;
 	}
+	const _Vector operator*(float scalar)
+	{
+		_Vector temp ;
+		temp.x = x * scalar ;
+		temp.y = y * scalar ;
+
+		return temp ;
+	}
 	const _Vector& operator=(_Vector vec)
 	{
 		x = vec.x ;

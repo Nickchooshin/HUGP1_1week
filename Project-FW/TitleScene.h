@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene.h"
+#include <fmod.hpp>
 
 class CSprite ;
 
@@ -15,6 +16,8 @@ private :
 	int m_nCursor ;
 	int m_nImageBox ;
 	float m_fAngle ;
+
+	FMOD::Sound *m_pSoundButton ;
 
 public :
 	static Scene* scene() ;

@@ -4,9 +4,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-CData::CData() : m_fModulus(0.0f),
-				 m_fMass(0.0f),
-				 m_fMoveAcc(0.0f), m_fSpinAcc(0.0f)
+CData::CData() : m_fModulus(0.5f),
+				 m_fMass(1.0f),
+				 m_fMoveAcc(0.1f), m_fSpinAcc(0.1f),
+				 m_bScore(false), m_bTime(false),
+				 m_nMaxScore(10000),
+				 m_fTimeLimit(60.0f)
 {
 }
 CData::~CData()
@@ -54,6 +57,27 @@ bool CData::LoadData()
 			g_LoadManager->GetString(temp) ;
 			m_fSpinAcc = (float)strtod(temp, NULL) ;
 		}
+		else if(len==5 && strcmp(item, "SCORE")==0)
+		{
+			int b ;
+			g_LoadManager->GetValue(b) ;
+			m_bScore = b ;
+		}
+		else if(len==9 && strcmp(item, "MAX_SCORE")==0)
+		{
+			g_LoadManager->GetValue(m_nMaxScore) ;
+		}
+		else if(len==4 && strcmp(item, "TIME")==0)
+		{
+			int b ;
+			g_LoadManager->GetValue(b) ;
+			m_bTime = b ;
+		}
+		else if(len==10 && strcmp(item, "TIME_LIMIT")==0)
+		{
+			g_LoadManager->GetString(temp) ;
+			m_fTimeLimit = (float)strtod(temp, NULL) ;
+		}
 	}
 
 	g_LoadManager->CloseDat() ;
@@ -71,20 +95,36 @@ bool CData::CreateDataFile()
 
 	fprintf(pFile, "# modulus of elasticity\n") ;
 	fprintf(pFile, "<modulus>\n") ;
-	fprintf(pFile, "0.5\n") ;
+	fprintf(pFile, "%f\n", m_fModulus) ;
 	fprintf(pFile, "\n") ;
 
 	fprintf(pFile, "# gyrating mass\n") ;
 	fprintf(pFile, "<mass>\n") ;
-	fprintf(pFile, "1.0\n") ;
+	fprintf(pFile, "%f\n", m_fMass) ;
 	fprintf(pFile, "\n") ;
 
 	fprintf(pFile, "# player move/spin acceleration\n") ;
 	fprintf(pFile, "<move_acceleration>\n") ;
-	fprintf(pFile, "0.1\n") ;
+	fprintf(pFile, "%f\n", m_fMoveAcc) ;
 	fprintf(pFile, "\n") ;
 	fprintf(pFile, "<spin_acceleration>\n") ;
-	fprintf(pFile, "0.1\n") ;
+	fprintf(pFile, "%f\n", m_fSpinAcc) ;
+	fprintf(pFile, "\n") ;
+
+	fprintf(pFile, "# scouring mode\n") ;
+	fprintf(pFile, "<score>\n") ;
+	fprintf(pFile, "%d\n", m_bScore) ;
+	fprintf(pFile, "\n") ;
+	fprintf(pFile, "<max_score>\n") ;
+	fprintf(pFile, "%d\n", m_nMaxScore) ;
+	fprintf(pFile, "\n") ;
+
+	fprintf(pFile, "# time limit mode\n") ;
+	fprintf(pFile, "<time>\n") ;
+	fprintf(pFile, "%d\n", m_bTime) ;
+	fprintf(pFile, "\n") ;
+	fprintf(pFile, "<time_limit>\n") ;
+	fprintf(pFile, "%f\n", m_fTimeLimit) ;
 
 	fclose(pFile) ;
 
