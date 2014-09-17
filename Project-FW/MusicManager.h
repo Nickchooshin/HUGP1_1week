@@ -2,13 +2,16 @@
 #include "Singleton.h"
 #include <fmod.hpp>
 #include <fmod_errors.h>
-#include <vector>
+//#include <vector>
+#include <map>
+#include <string>
 
 class MusicManager : public Singleton<MusicManager>
 {
 protected:
 	FMOD::System * System;
-	std::vector<FMOD::Sound *> Sounds;
+	//std::vector<FMOD::Sound *> Sounds;
+	std::map<std::string, FMOD::Sound *> Sounds ;
 	FMOD::Channel * Channels[32];
 
 public:

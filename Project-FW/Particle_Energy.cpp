@@ -18,7 +18,7 @@ CParticle_Energy::~CParticle_Energy()
 void CParticle_Energy::Init()
 {
 	m_pSprite = new CSprite ;
-	m_pSprite->Init("Resource/Energy.png") ;
+	m_pSprite->Init("Resource/Image/Energy.png") ;
 
 	float angle = rand()%36 ;
 	angle = (angle * 10.0f) * D3DX_PI / 180.0f ;
@@ -38,6 +38,12 @@ void CParticle_Energy::Update()
 	}
 	else
 	{
+		if(!g_Player->BeLife())
+		{
+			m_vecSpeed = m_vecSpeed * 0.0f ;
+			return ;
+		}
+
 		CCollision col ;
 		float angle ;
 		float PlayerX = g_Player->GetPositionX() ;

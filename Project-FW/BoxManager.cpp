@@ -3,25 +3,18 @@
 #include "Player.h"
 #include "Collision.h"
 #include "ParticleManager.h"
-
-#include "D3dDevice.h"
-//
 #include "Data.h"
 
-CBoxManager::CBoxManager()
+#include "MusicManager.h"
+
+#include "D3dDevice.h"
+
+CBoxManager::CBoxManager() : m_pCrash(NULL)
 {
 }
 CBoxManager::~CBoxManager()
 {
-	CBox *pBox ;
-	const int num=m_BoxList.size() ;
-
-	for(int i=0; i<num; i++)
-	{
-		pBox = m_BoxList[i] ;
-		delete pBox ;
-	}
-	m_BoxList.clear() ;
+	Clear() ;
 }
 
 void CBoxManager::Init()
@@ -30,6 +23,8 @@ void CBoxManager::Init()
 
 	for(int i=0; i<num; i++)
 		CreateRandomBox() ;
+	
+	m_pCrash = g_MusicManager->LoadMusic("Resource/Sound/Crash.wav", false, false) ;
 }
 
 void CBoxManager::Update()
@@ -42,9 +37,7 @@ void CBoxManager::Update()
 		{
 			CBox *pBox = m_BoxList[i] ;
 			m_BoxList.erase(m_BoxList.begin() + i) ;
-			//
 			g_ParticleManager->CreateParticle(pBox->GetPositionX(), pBox->GetPositionY(), 1) ;
-			//
 			delete pBox ;
 
 			--i ;
@@ -68,9 +61,23 @@ void CBoxManager::Render()
 		m_BoxList[i]->Render() ;
 }
 
+void CBoxManager::Clear()
+{
+	CBox *pBox ;
+	const int num=m_BoxList.size() ;
+
+	for(int i=0; i<num; i++)
+	{
+		pBox = m_BoxList[i] ;
+		delete pBox ;
+	}
+	m_BoxList.clear() ;
+}
+
 void CBoxManager::Collision()
 {
 	const int num=m_BoxList.size() ;
+	bool bCol ;
 
 	CCollision collision ;
 	
@@ -85,11 +92,15 @@ void CBoxManager::Collision()
 		float BoxY = pBox->GetPositionY() ;
 		float BoxR = pBox->GetScale() ;
 
-		bool bCol = collision.CircleCollision(PlayerX, PlayerY, PlayerR*24.0f, BoxX, BoxY, BoxR*24.0f) ;
-		if(bCol)
+		if(g_Player->BeLife())
 		{
-			collision.InelasticCollision(g_Player, pBox) ;
-			g_ParticleManager->CreateParticle(g_Player->GetPositionX(), g_Player->GetPositionY(), 0) ;
+			bCol = collision.CircleCollision(PlayerX, PlayerY, PlayerR*24.0f, BoxX, BoxY, BoxR*24.0f) ;
+			if(bCol)
+			{
+				collision.InelasticCollision(g_Player, pBox) ;
+				g_ParticleManager->CreateParticle(g_Player->GetPositionX(), g_Player->GetPositionY(), 0) ;
+				g_MusicManager->PlayMusic(m_pCrash, 1) ;
+			}
 		}
 
 		if(g_Data->m_bBoxCollision)
@@ -103,11 +114,12 @@ void CBoxManager::Collision()
 				float Box2X = pBox2->GetPositionX() ;
 				float Box2Y = pBox2->GetPositionY() ;
 				float Box2R = pBox2->GetScale() ;
-				bool bCol = collision.CircleCollision(BoxX, BoxY, BoxR*24.0f, Box2X, Box2Y, Box2R*24.0f) ;
+				bCol = collision.CircleCollision(BoxX, BoxY, BoxR*24.0f, Box2X, Box2Y, Box2R*24.0f) ;
 				if(bCol)
 				{
 					collision.InelasticCollision(pBox, pBox2) ;
 					g_ParticleManager->CreateParticle(pBox->GetPositionX(), pBox->GetPositionY(), 0) ;
+					g_MusicManager->PlayMusic(m_pCrash, 1) ;
 				}
 			}
 		}

@@ -19,7 +19,8 @@ TitleScene::TitleScene() : m_pBackground(NULL),
 						   m_nCursor(0),
 						   m_nImageBox(0),
 						   m_fAngle(0.0f),
-						   m_pSoundButton(NULL)
+						   m_pSoundButton(NULL),
+						   m_pBGM(NULL)
 {
 }
 TitleScene::~TitleScene()
@@ -53,35 +54,37 @@ void TitleScene::Init()
 	float fWinHeight = g_D3dDevice->GetWinHeight() ;
 
 	m_pBackground = new CSprite ;
-	m_pBackground->Init("Resource/Title.png") ;
+	m_pBackground->Init("Resource/Image/Title.png") ;
 	m_pBackground->SetPosition(fWinWidth/2.0f, fWinHeight/2.0f) ;
 
 	m_pTutorial1 = new CSprite ;
-	m_pTutorial1->Init("Resource/Tutorial1_ImageBox.png") ;
+	m_pTutorial1->Init("Resource/Image/Tutorial1_ImageBox.png") ;
 	m_pTutorial1->SetPosition(fWinWidth/2.0f, fWinHeight/2.0f) ;
 
 	m_pTutorial2 = new CSprite ;
-	m_pTutorial2->Init("Resource/Tutorial2_ImageBox.png") ;
+	m_pTutorial2->Init("Resource/Image/Tutorial2_ImageBox.png") ;
 	m_pTutorial2->SetPosition(fWinWidth/2.0f, fWinHeight/2.0f) ;
 
 	m_pDeveloper = new CSprite ;
-	m_pDeveloper->Init("Resource/Developer_ImageBox.png") ;
+	m_pDeveloper->Init("Resource/Image/Developer_ImageBox.png") ;
 	m_pDeveloper->SetPosition(fWinWidth/2.0f, fWinHeight/2.0f) ;
 
 	m_pBox1 = new CSprite() ;
-	m_pBox1->Init("Resource/48.png") ;
+	m_pBox1->Init("Resource/Image/Box.png") ;
 	m_pBox1->SetRGB(157, 223, 255) ;
 
 	m_pBox2 = new CSprite() ;
-	m_pBox2->Init("Resource/48.png") ;
+	m_pBox2->Init("Resource/Image/Box.png") ;
 	m_pBox2->SetRGB(255, 161, 161) ;
 
-	m_pSoundButton = g_MusicManager->LoadMusic("Resource/es040.wav", false, false) ;
+	m_pSoundButton = g_MusicManager->LoadMusic("Resource/Sound/es040.wav", false, false) ;
+	m_pBGM = g_MusicManager->LoadMusic("Resource/Sound/Raina-Milk_in_Veins.mp3", true) ;
+	//m_pBGM = g_MusicManager->LoadMusic("Resource/Sound/Flutterwonder_UP_NOVOX.mp3", true) ;
+	g_MusicManager->PlayMusic(m_pBGM, 0) ;
 }
 
 void TitleScene::Destroy()
 {
-	g_MusicManager->StopMusic() ;
 }
 
 void TitleScene::Update(float dt)
@@ -93,8 +96,8 @@ void TitleScene::Update(float dt)
 
 	if(m_nImageBox==0 && g_Keyboard->IsPressDown(DIK_UP))
 	{
-		g_MusicManager->StopMusic() ;
-		g_MusicManager->PlayMusic(m_pSoundButton) ;
+		g_MusicManager->StopMusic(1) ;
+		g_MusicManager->PlayMusic(m_pSoundButton, 1) ;
 
 		--m_nCursor ;
 		if(m_nCursor<0)
@@ -102,8 +105,8 @@ void TitleScene::Update(float dt)
 	}
 	if(m_nImageBox==0 && g_Keyboard->IsPressDown(DIK_DOWN))
 	{
-		g_MusicManager->StopMusic() ;
-		g_MusicManager->PlayMusic(m_pSoundButton) ;
+		g_MusicManager->StopMusic(1) ;
+		g_MusicManager->PlayMusic(m_pSoundButton, 1) ;
 
 		++m_nCursor ;
 		if(m_nCursor>2)
@@ -111,8 +114,8 @@ void TitleScene::Update(float dt)
 	}
 	if(g_Keyboard->IsPressDown(DIK_RETURN))
 	{
-		g_MusicManager->StopMusic() ;
-		g_MusicManager->PlayMusic(m_pSoundButton) ;
+		g_MusicManager->StopMusic(1) ;
+		g_MusicManager->PlayMusic(m_pSoundButton, 1) ;
 
 		if(m_nCursor==0)
 			g_SceneManager->ChangeScene(SampleScene::scene()) ;

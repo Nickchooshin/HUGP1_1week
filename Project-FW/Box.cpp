@@ -10,10 +10,10 @@
 CBox::CBox() : m_bLife(true),
 			   m_fScale(1.0f),
 			   m_fRotation(0.0f),
-			   m_fSpinSpeed(6.0f),
+			   m_fSpinSpeed(0.0f),
 			   m_Vector(),
 			   m_fMoveAcc(g_Data->m_fMoveAcc), m_fSpinAcc(g_Data->m_fSpinAcc),
-			   m_fFixedSpinSpeed(10.0f)
+			   m_fFixedSpinSpeed(0.0f)
 {
 }
 CBox::~CBox()
@@ -23,7 +23,13 @@ CBox::~CBox()
 void CBox::Init()
 {
 	m_pSprite = new CSprite ;
-	m_pSprite->Init("Resource/48.png") ;
+	m_pSprite->Init("Resource/Image/Box.png") ;
+
+	m_bLife = true ;
+	m_fScale = 1.0f ;
+	m_fRotation = 0.0f ;
+	m_fSpinSpeed = 0.0f ;
+	m_Vector = m_Vector * 0.0f ;
 }
 
 void CBox::Update()
@@ -140,8 +146,6 @@ void CBox::Spin()
 void CBox::Move()
 {
 	float fAcceleration = m_fMoveAcc * g_D3dDevice->GetMoveTime() ;
-	float temp ;
-	float temp2 ;
 
 	CCollision col ;
 	float angle ;

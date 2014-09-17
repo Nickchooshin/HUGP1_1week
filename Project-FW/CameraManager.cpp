@@ -14,7 +14,10 @@ void CameraManager::AddCamera(CCamera *Camera, int Number)
 
 	iter = m_Camera.find(Number) ;
 	if(iter!=m_Camera.end())
+	{
 		delete iter->second ;
+		m_Camera.erase(iter) ;
+	}
 
 	m_Camera[Number] = Camera ;
 }

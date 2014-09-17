@@ -18,6 +18,7 @@ private :
 	float m_fAngle ;
 
 	FMOD::Sound *m_pSoundButton ;
+	FMOD::Sound *m_pBGM ;
 
 public :
 	static Scene* scene() ;

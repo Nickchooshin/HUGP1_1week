@@ -13,7 +13,7 @@ CParticle_Debris::~CParticle_Debris()
 void CParticle_Debris::Init()
 {
 	m_pSprite = new CSprite ;
-	m_pSprite->Init("Resource/Debris.png") ;
+	m_pSprite->Init("Resource/Image/Debris.png") ;
 
 	m_vecSpeed.x = -1.0f * (rand()%13-6) ;
 	m_vecSpeed.y = 2.0f * (rand()%5) ;

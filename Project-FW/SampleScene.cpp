@@ -1,4 +1,6 @@
 #include "SampleScene.h"
+#include "SceneManager.h"
+#include "TitleScene.h"
 
 #include "Keyboard.h"
 #include "Mouse.h"
@@ -13,18 +15,18 @@
 #include "BoxManager.h"
 #include "Player.h"
 #include "ParticleManager.h"
-//
-#include "inelastic_collision.h"
 
-//FMOD::Sound *sound ;
-
-SampleScene::SampleScene() : m_pBackground(NULL)
+SampleScene::SampleScene() : m_pBackground(NULL),
+							 m_pGameover(NULL),
+							 m_fGameoverTime(0.0f)
 {
 }
 SampleScene::~SampleScene()
 {
 	if(m_pBackground!=NULL)
 		delete m_pBackground ;
+	if(m_pGameover!=NULL)
+		delete m_pGameover ;
 }
 
 Scene* SampleScene::scene()
@@ -39,7 +41,10 @@ void SampleScene::Init()
 	g_CameraManager->AddCamera(new CCamera()) ;
 
 	m_pBackground = new CSprite ;
-	m_pBackground->Init("Resource/Background.png") ;
+	m_pBackground->Init("Resource/Image/Background.png") ;
+
+	m_pGameover = new CSprite ;
+	m_pGameover->Init("Resource/Image/Gameover.png") ;
 
 	g_Data->Init() ;
 
@@ -60,13 +65,40 @@ void SampleScene::Update(float dt)
 	g_Joystick->Update() ;
 	g_MusicManager->Loop() ;
 
-	g_Player->Update() ;
+	m_bGameover = !g_Player->BeLife() ;
+
+	if(!m_bGameover)
+	{
+		g_Player->Update() ;
+	}
+	else
+	{
+		m_pGameover->SetPosition(g_Player->GetPositionX(), g_Player->GetPositionY()) ;
+
+		if(m_fGameoverTime<3.0f)
+			m_fGameoverTime += dt ;
+
+		if(m_fGameoverTime>=3.0f)
+		{
+			m_pGameover->SetAlpha(255) ;
+
+			if(g_Keyboard->IsPressDown(DIK_RETURN))
+			{
+				GameOver() ;
+				return ;
+			}
+		}
+		else
+		{
+			int nAlpha = 255 * (m_fGameoverTime / 3.0f) ;
+			m_pGameover->SetAlpha(nAlpha) ;
+		}
+	}
 
 	g_BoxManager->Update() ;
 
 	g_ParticleManager->Update() ;
 
-	//g_MusicManager->PlayMusic(sound[0]) ;
 	m_pBackground->SetPosition(g_Player->GetPositionX(), g_Player->GetPositionY()) ;
 
 	g_CameraManager->SetPosition(g_Player->GetPositionX(), g_Player->GetPositionY()) ;
@@ -78,9 +110,20 @@ void SampleScene::Render()
 
 	m_pBackground->Render() ;
 
-	g_Player->Render() ;
+	if(!m_bGameover)
+		g_Player->Render() ;
 
 	g_BoxManager->Render() ;
 
 	g_ParticleManager->Render() ;
+
+	if(m_bGameover)
+		m_pGameover->Render() ;
+}
+
+void SampleScene::GameOver()
+{
+	g_BoxManager->Clear() ;
+
+	g_SceneManager->ChangeScene(TitleScene::scene()) ;
 }

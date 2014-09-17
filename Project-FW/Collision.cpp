@@ -38,7 +38,7 @@ void CCollision::InelasticCollision(CBox *pBox1, CBox *pBox2)
 	float spinSpeedBox2 = pBox2->GetSpinSpeedAbs() ;
 	float modulus = g_Data->m_fModulus ;
 	float mass = g_Data->m_fMass ;
-	InelasticCollision(spinSpeedBox1 * mass, spinSpeedBox2 * mass, vecForceBox1, vecForceBox2, modulus, _vecForceBox1, _vecForceBox2) ;
+	InelasticCollision((spinSpeedBox1 * mass) + 1.0f, (spinSpeedBox2 * mass) + 1.0f, vecForceBox1, vecForceBox2, modulus, _vecForceBox1, _vecForceBox2) ;
 
 	// 회전 감속/가속
 	float forceBox1 = spinSpeedBox1 * vecForceBox1 ;
