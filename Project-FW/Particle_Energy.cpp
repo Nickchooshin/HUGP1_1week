@@ -38,7 +38,7 @@ void CParticle_Energy::Update()
 	}
 	else
 	{
-		if(!g_Player->BeLife())
+		if(g_Player->BeGameover())
 		{
 			m_vecSpeed = m_vecSpeed * 0.0f ;
 			return ;

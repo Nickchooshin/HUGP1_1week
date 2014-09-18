@@ -71,6 +71,13 @@ void CameraManager::MovePosition(float x, float y, int Number)
 	m_Camera[Number]->MovePosition(x, y) ;
 }
 
+const D3DXVECTOR3 CameraManager::GetPosition(int Number) const
+{
+	std::map<int, CCamera*>::const_iterator iter = m_Camera.find(Number) ;
+
+	return iter->second->GetPosition() ;
+}
+
 void CameraManager::CameraRun()
 {
 	m_Camera[m_nCameraNumber]->Run() ;

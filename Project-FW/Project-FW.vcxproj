@@ -95,6 +95,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="MusicManager.cpp" />
+    <ClCompile Include="NumberUI.cpp" />
     <ClCompile Include="Objects.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
@@ -103,8 +104,10 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SampleScene.cpp" />
+    <ClCompile Include="ScoreUI.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="TimeLimitUI.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UISprite.cpp" />
     <ClCompile Include="WinSystem.cpp" />
@@ -125,6 +128,7 @@
     <ClInclude Include="LoadManager.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="MusicManager.h" />
+    <ClInclude Include="NumberUI.h" />
     <ClInclude Include="Objects.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleManager.h" />
@@ -134,9 +138,11 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SampleScene.h" />
+    <ClInclude Include="ScoreUI.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="TimeLimitUI.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UISprite.h" />
     <ClInclude Include="Vector.h" />

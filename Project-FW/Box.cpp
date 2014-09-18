@@ -15,9 +15,16 @@ CBox::CBox() : m_bLife(true),
 			   m_fMoveAcc(g_Data->m_fMoveAcc), m_fSpinAcc(g_Data->m_fSpinAcc),
 			   m_fFixedSpinSpeed(0.0f)
 {
+	for(int i=0; i<3; i++)
+		m_pAfterImage[i] = NULL ;
 }
 CBox::~CBox()
 {
+	for(int i=0; i<3; i++)
+	{
+		if(m_pAfterImage[i]!=NULL)
+			delete m_pAfterImage[i] ;
+	}
 }
 
 void CBox::Init()
@@ -25,11 +32,26 @@ void CBox::Init()
 	m_pSprite = new CSprite ;
 	m_pSprite->Init("Resource/Image/Box.png") ;
 
+	for(int i=0; i<3; i++)
+	{
+		m_pAfterImage[i] = new CSprite ;
+		m_pAfterImage[i]->Init("Resource/Image/Box.png") ;
+		m_pAfterImage[i]->SetAlpha(255-(63*(i+1))) ;
+	}
+
 	m_bLife = true ;
 	m_fScale = 1.0f ;
 	m_fRotation = 0.0f ;
 	m_fSpinSpeed = 0.0f ;
 	m_Vector = m_Vector * 0.0f ;
+}
+
+void CBox::InitAfterImagePosition()
+{
+	m_pSprite->SetPosition(m_fX, m_fY) ;
+
+	for(int i=0; i<3; i++)
+		m_pAfterImage[i]->SetPosition(m_fX, m_fY) ;
 }
 
 void CBox::Update()
@@ -44,6 +66,8 @@ void CBox::SetScale(float fScale)
 {
 	m_fScale = fScale ;
 	m_pSprite->SetScale(m_fScale, m_fScale) ;
+	for(int i=0; i<3; i++)
+		m_pAfterImage[i]->SetScale(m_fScale, m_fScale) ;
 }
 
 void CBox::SetSpinSpeed(float fSpinSpeed)
@@ -114,6 +138,17 @@ void CBox::SpinAccelerate(float fSpinAcc)
 		else
 			m_fSpinSpeed = fSpinAcc ;
 	}
+}
+
+void CBox::Render()
+{
+	AfterImage() ;
+
+	for(int i=2; i>=0; i--)
+		m_pAfterImage[i]->Render() ;
+
+	m_pSprite->SetPosition(m_fX, m_fY) ;
+	m_pSprite->Render() ;
 }
 
 void CBox::Spin()
@@ -195,4 +230,23 @@ void CBox::SpinColor()
 	g = 255 - (int)(g * percentage) ;
 	b = 255 - (int)(b * percentage) ;
 	m_pSprite->SetRGB(r, g, b) ;
+	for(int i=0; i<3; i++)
+		m_pAfterImage[i]->SetRGB(r, g, b) ;
+}
+
+void CBox::AfterImage()
+{
+	D3DXVECTOR3 position ;
+	float angle ;
+
+	for(int i=2; i>=1; i--)
+	{
+		position = m_pAfterImage[i-1]->GetPosition() ;
+		m_pAfterImage[i]->SetPosition(position.x, position.y) ;
+		m_pAfterImage[i]->SetAngle(m_fRotation) ;
+	}
+
+	position = m_pSprite->GetPosition() ;
+	m_pAfterImage[0]->SetPosition(position.x, position.y) ;
+	m_pAfterImage[0]->SetAngle(m_fRotation) ;
 }

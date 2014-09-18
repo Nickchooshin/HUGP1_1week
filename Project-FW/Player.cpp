@@ -4,7 +4,8 @@
 
 #include "D3dDevice.h"
 
-CPlayer::CPlayer() : m_nScore(0)
+CPlayer::CPlayer() : m_nScore(0),
+					 m_bGameover(false)
 {
 	m_fSpinSpeed = 0.0f ;
 }
@@ -12,10 +13,25 @@ CPlayer::~CPlayer()
 {
 }
 
-void CPlayer::Update()
+void CPlayer::Init()
 {
-	MoveInput() ;
-	SpinInput() ;
+	m_pSprite = new CSprite ;
+	m_pSprite->Init("Resource/Image/Box.png") ;
+
+	for(int i=0; i<3; i++)
+	{
+		m_pAfterImage[i] = new CSprite ;
+		m_pAfterImage[i]->Init("Resource/Image/Box.png") ;
+		m_pAfterImage[i]->SetAlpha(255-(63*(i+1))) ;
+	}
+
+	m_bLife = true ;
+	m_bGameover = false ;
+	m_fScale = 1.0f ;
+	m_fRotation = 0.0f ;
+	m_fSpinSpeed = 0.0f ;
+	m_Vector = m_Vector * 0.0f ;
+	m_nScore = 0 ;
 }
 
 void CPlayer::EnergyAbsorption()
@@ -25,12 +41,22 @@ void CPlayer::EnergyAbsorption()
 	m_pSprite->SetScale(m_fScale, m_fScale) ;
 }
 
+void CPlayer::Gameover()
+{
+	m_bGameover = true ;
+}
+
 const int CPlayer::GetScore() const
 {
 	return m_nScore ;
 }
 
-void CPlayer::MoveInput()
+const bool CPlayer::BeGameover() const
+{
+	return m_bGameover ;
+}
+
+void CPlayer::Move()
 {
 	float fAcceleration = m_fMoveAcc * g_D3dDevice->GetMoveTime() ;
 	float fDeceleration = (m_fMoveAcc/2.0f) * g_D3dDevice->GetMoveTime() ;
@@ -81,7 +107,7 @@ void CPlayer::MoveInput()
 	m_fY += m_Vector.y ;
 }
 
-void CPlayer::SpinInput()
+void CPlayer::Spin()
 {
 	float fSpinSpeed = m_fSpinAcc * g_D3dDevice->GetMoveTime() ;
 
@@ -114,28 +140,4 @@ void CPlayer::SpinInput()
 	m_fRotation += m_fSpinSpeed ;
 
 	m_pSprite->SetAngle(m_fRotation) ;
-	
-	// 회전 방향에 따른 색
-	int r, g, b ;
-	float percentage ;
-	r = g = b = 255 ;
-
-	if(m_fSpinSpeed>=0.0f)
-	{
-		r -= 92 ;
-		g -= 200 ;
-		b -= 255 ;
-		percentage = m_fSpinSpeed / (m_fScale * 15.0f) ;
-	}
-	else
-	{
-		r -= 255 ;
-		g -= 96 ;
-		b -= 96 ;
-		percentage = m_fSpinSpeed / (m_fScale * -15.0f) ;
-	}
-	r = 255 - (int)(r * percentage) ;
-	g = 255 - (int)(g * percentage) ;
-	b = 255 - (int)(b * percentage) ;
-	m_pSprite->SetRGB(r, g, b) ;
 }

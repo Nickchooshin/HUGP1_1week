@@ -22,6 +22,11 @@ void CCamera::MovePosition(float x, float y)
 	m_Position.y += y ;
 }
 
+const D3DXVECTOR3 CCamera::GetPosition() const
+{
+	return m_Position ;
+}
+
 void CCamera::Run()
 {
 	const LPDIRECT3DDEVICE9 pd3dDevice = g_D3dDevice->GetDevice() ;

@@ -3,14 +3,19 @@
 #include "Scene.h"
 
 class CSprite ;
+class CScoreUI ;
+class CTimeLimitUI ;
 
 class SampleScene : public Scene
 {
 private :
-	bool m_bGameover ;
-	float m_fGameoverTime ;
+	bool m_bScore, m_bTime ;
+	bool m_bGameover, m_bGameclear ;
+	float m_fSpriteTime ;
 	CSprite *m_pBackground ;
-	CSprite *m_pGameover ;
+	CSprite *m_pGameover, *m_pGameclear ;
+	CScoreUI *m_pScore ;
+	CTimeLimitUI *m_pTimeLimit ;
 
 public :
 	static Scene* scene() ;

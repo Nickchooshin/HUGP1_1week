@@ -92,7 +92,7 @@ void CBoxManager::Collision()
 		float BoxY = pBox->GetPositionY() ;
 		float BoxR = pBox->GetScale() ;
 
-		if(g_Player->BeLife())
+		if(!g_Player->BeGameover())
 		{
 			bCol = collision.CircleCollision(PlayerX, PlayerY, PlayerR*24.0f, BoxX, BoxY, BoxR*24.0f) ;
 			if(bCol)
@@ -181,6 +181,7 @@ void CBoxManager::CreateRandomBox()
 	CBox *pBox = new CBox ;
 	pBox->Init() ;
 	pBox->SetPosition(x, y) ;
+	pBox->InitAfterImagePosition() ;
 
 	// 크기 설정
 	float Scale = 1.0f - (0.2f * (rand()%4-1)) ;

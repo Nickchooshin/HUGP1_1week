@@ -80,8 +80,7 @@ bool CData::LoadData()
 			g_LoadManager->GetString(temp) ;
 			m_fTimeLimit = (float)strtod(temp, NULL) ;
 		}
-		//
-		else if(len==9 && strcmp(item, "BOX_FORCE")==0)
+		else if(len==13 && strcmp(item, "BOX_FORCE_MAX")==0)
 		{
 			g_LoadManager->GetString(temp) ;
 			m_fBoxForceMax = (float)strtod(temp, NULL) ;

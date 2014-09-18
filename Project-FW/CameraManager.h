@@ -27,6 +27,8 @@ public :
 	void MovePosition(float x, float y) ;
 	void MovePosition(float x, float y, int Number) ;
 
+	const D3DXVECTOR3 GetPosition(int Number=0) const ;
+
 	void CameraRun() ;
 } ;
 

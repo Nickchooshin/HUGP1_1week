@@ -12,6 +12,9 @@ protected :
 	Vector m_Vector ;
 
 	float m_fMoveAcc, m_fSpinAcc ;
+
+	//
+	CSprite *m_pAfterImage[3] ;
 private :
 	float m_fFixedSpinSpeed ;
 
@@ -19,7 +22,8 @@ public :
 	CBox() ;
 	virtual ~CBox() ;
 
-	void Init() ;
+	virtual void Init() ;
+	void InitAfterImagePosition() ;
 
 	virtual void Update() ;
 
@@ -37,9 +41,12 @@ public :
 	const bool BeLife() const ;
 
 	void SpinAccelerate(float fSpinAcc) ;
+
+	void Render() ;
 protected :
-	void Spin() ;
-	void Move() ;
+	virtual void Spin() ;
+	virtual void Move() ;
 
 	void SpinColor() ;
+	void AfterImage() ;
 } ;

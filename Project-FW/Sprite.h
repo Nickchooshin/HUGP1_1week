@@ -37,6 +37,7 @@ public :
 	void TexReverse() ;											// 텍스쳐 뒤집기
 
 	D3DXVECTOR3 GetPosition() ;									// 좌표 받아오기
+	float GetAngle(char Direction='z') ;
 
 	void Render() ;
 private :

@@ -118,7 +118,10 @@ void TitleScene::Update(float dt)
 		g_MusicManager->PlayMusic(m_pSoundButton, 1) ;
 
 		if(m_nCursor==0)
+		{
 			g_SceneManager->ChangeScene(SampleScene::scene()) ;
+			return ;
+		}
 		else if(m_nCursor==1)
 			m_nImageBox = ++m_nImageBox % 3 ;
 		else

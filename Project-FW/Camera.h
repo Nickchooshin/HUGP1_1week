@@ -13,5 +13,7 @@ public :
 	void SetPosition(float x, float y) ;
 	void MovePosition(float x, float y) ;
 
+	const D3DXVECTOR3 GetPosition() const ;
+
 	void Run() ;
 } ;

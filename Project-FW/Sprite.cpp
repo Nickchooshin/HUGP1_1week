@@ -189,6 +189,31 @@ D3DXVECTOR3 CSprite::GetPosition()
 	return m_Position ;
 }
 
+float CSprite::GetAngle(char Direction)
+{
+	int index ;
+
+	switch(Direction)
+	{
+	case 'x' :
+	case 'X' :
+		index = 0 ;
+		break ;
+
+	case 'y' :
+	case 'Y' :
+		index = 1 ;
+		break ;
+
+	case 'z' :
+	case 'Z' :
+		index = 2 ;
+		break ;
+	}
+
+	return m_fAngle[index] ;
+}
+
 void CSprite::Render()
 {
 	const LPDIRECT3DDEVICE9 pd3dDevice = g_D3dDevice->GetDevice() ;
